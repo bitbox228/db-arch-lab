@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS anime
     type         anime_type,
     studio       VARCHAR(255),
     status       anime_status,
-    age_rating   INTEGER,
+    age_rating   VARCHAR(5),
     cover_url    VARCHAR(255)
 );
 
@@ -81,8 +81,8 @@ CREATE TABLE IF NOT EXISTS reviews
     id       SERIAL PRIMARY KEY,
     user_id  INTEGER REFERENCES users (id),
     anime_id INTEGER REFERENCES anime (id),
-    rating   INTEGER,
-    text     VARCHAR(255)
+    rating   FLOAT,
+    text     VARCHAR(1000)
 );
 
 CREATE TABLE IF NOT EXISTS friends
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS messages
     id          SERIAL PRIMARY KEY,
     sender_id   INTEGER REFERENCES users (id),
     receiver_id INTEGER REFERENCES users (id),
-    text        VARCHAR(255),
+    text        VARCHAR(1000),
     file_url    VARCHAR(255),
     time        TIMESTAMP NOT NULL DEFAULT NOW()
 );

@@ -1,4 +1,4 @@
-package faker
+package fakers
 
 import (
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -6,7 +6,7 @@ import (
 )
 
 const Count = 1_000_000
-const WorkersCount = 100
+const WorkersCount = 10
 const TablesCount = 1
 
 func GenerateFakeData(pool *pgxpool.Pool) {
@@ -14,6 +14,11 @@ func GenerateFakeData(pool *pgxpool.Pool) {
 
 	wg.Add(1)
 	go fillUsers(pool, &wg)
+	wg.Add(1)
+	go fillAnime(pool, &wg)
+	wg.Wait()
 
+	wg.Add(1)
+	go fillUserAnimeStatus(pool, &wg)
 	wg.Wait()
 }

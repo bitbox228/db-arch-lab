@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"db-arch-lab2/internal/faker"
+	"db-arch-lab2/internal/fakers"
 	"db-arch-lab2/internal/migrations"
 	"fmt"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -11,7 +11,7 @@ import (
 )
 
 const DatabaseUrl = "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
-const ConnectionsCount = faker.WorkersCount
+const ConnectionsCount = 40
 
 func main() {
 	config, err := pgxpool.ParseConfig(DatabaseUrl)
@@ -37,7 +37,7 @@ func main() {
 	conn.Release()
 
 	start := time.Now()
-	faker.GenerateFakeData(pool)
+	fakers.GenerateFakeData(pool)
 	finish := time.Now()
 
 	fmt.Println(finish.Sub(start))
