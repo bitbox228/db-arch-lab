@@ -1,28 +1,35 @@
 DO
 $$
     BEGIN
+        IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'anime_type') THEN
+            CREATE TYPE anime_type AS ENUM (
+                'SERIES',
+                'MOVIE',
+                'OVA'
+                );
+        END IF;
         IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'anime_status') THEN
             CREATE TYPE anime_status AS ENUM (
-                'ongoing',
-                'planned',
-                'released'
+                'ONGOING',
+                'PLANNED',
+                'RELEASED'
                 );
         END IF;
         IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'notification_type') THEN
             CREATE TYPE notification_type AS ENUM (
-                'friend_request',
-                'new_episode',
-                'new_message'
+                'FRIEND_REQUEST',
+                'NEW_EPISODE',
+                'NEW_MESSAGE'
                 );
         END IF;
         IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'user_anime_list') THEN
             CREATE TYPE user_anime_list AS ENUM (
-                'watching',
-                'watched',
-                'want_to_watch',
-                'dropped',
-                'deferred',
-                'revising'
+                'WATCHING',
+                'WATCHED',
+                'WANT_TO_WATCH',
+                'DROPPED',
+                'DEFERRED',
+                'REVISING'
                 );
         END IF;
     END
