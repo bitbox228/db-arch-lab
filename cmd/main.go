@@ -4,10 +4,8 @@ import (
 	"context"
 	"db-arch-lab2/internal/fakers"
 	"db-arch-lab2/internal/migrations"
-	"fmt"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"log"
-	"time"
 )
 
 const DatabaseUrl = "postgres://postgres:postgres@db:5432/postgres?sslmode=disable"
@@ -35,10 +33,8 @@ func main() {
 		log.Fatal(err)
 	}
 	conn.Release()
+	log.Println("migrations done")
 
-	start := time.Now()
 	fakers.GenerateFakeData(pool)
-	finish := time.Now()
-
-	fmt.Println(finish.Sub(start))
+	log.Println("filled with fake data")
 }

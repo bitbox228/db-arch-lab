@@ -2,7 +2,6 @@ package fakers
 
 import (
 	"github.com/jackc/pgx/v5/pgxpool"
-	"log"
 	"sync"
 )
 
@@ -20,7 +19,6 @@ func GenerateFakeData(pool *pgxpool.Pool) {
 	wg.Add(1)
 	go fillAnimeSeries(pool, &wg, &animeWg)
 	wg.Wait()
-	log.Println("first group")
 
 	wg.Add(1)
 	go fillUserAnimeStatus(pool, &wg, &userWg, &animeWg)
@@ -31,7 +29,6 @@ func GenerateFakeData(pool *pgxpool.Pool) {
 	wg.Add(1)
 	go fillMessages(pool, &wg, &userWg)
 	wg.Wait()
-	log.Println("second group")
 
 	wg.Add(1)
 	go fillAchievements(pool, &wg, &achievementWg, &animeWg)
@@ -42,5 +39,4 @@ func GenerateFakeData(pool *pgxpool.Pool) {
 	wg.Add(1)
 	go fillReactions(pool, &wg, &reviewWg, &userWg)
 	wg.Wait()
-	log.Println("third group")
 }
