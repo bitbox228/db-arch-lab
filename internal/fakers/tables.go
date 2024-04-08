@@ -27,25 +27,25 @@ type userAnimeStatus struct {
 	IsSubscribed bool
 }
 
-type AnimeSeries struct {
+type animeSeries struct {
 	AnimeId      int    `faker:"boundary_start=1, boundary_end=1000000"`
 	SeriesUrl    string `faker:"url"`
 	SecondsCount int
 }
 
-type Series struct {
+type reviews struct {
 	AnimeId int     `faker:"boundary_start=1, boundary_end=1000000"`
 	UserId  int     `faker:"boundary_start=1, boundary_end=1000000"`
 	Rating  float32 `faker:"boundary_start=0.0, boundary_end=5.0"`
 	Text    string  `faker:"paragraph"`
 }
 
-type Friends struct {
+type friends struct {
 	UserId1 int `faker:"boundary_start=1, boundary_end=1000000"`
 	UserId2 int `faker:"boundary_start=1, boundary_end=1000000"`
 }
 
-type Messages struct {
+type messages struct {
 	SenderId   int    `faker:"boundary_start=1, boundary_end=1000000"`
 	ReceiverId int    `faker:"boundary_start=1, boundary_end=1000000"`
 	Text       string `faker:"paragraph"`
@@ -53,26 +53,26 @@ type Messages struct {
 	Time       string `faker:"time"`
 }
 
-type Achievements struct {
+type achievements struct {
 	AnimeId     int    `faker:"boundary_start=1, boundary_end=1000000"`
 	Name        string `faker:"first_name"`
 	Description string `faker:"sentence"`
 }
 
-type UserAchievements struct {
+type userAchievements struct {
 	AchievementId int    `faker:"boundary_start=1, boundary_end=1000000"`
 	UserId        int    `faker:"boundary_start=1, boundary_end=1000000"`
 	Time          string `faker:"time"`
 }
 
-type Notifications struct {
+type notifications struct {
 	UserId int    `faker:"boundary_start=1, boundary_end=1000000"`
 	Type   string `faker:"oneof: FRIEND_REQUEST, NEW_EPISODE, NEW_MESSAGE"`
 	Body   string
 	Time   string `faker:"time"`
 }
 
-type Reactions struct {
+type reactions struct {
 	ReviewId int `faker:"boundary_start=1, boundary_end=1000000"`
 	UserId   int `faker:"boundary_start=1, boundary_end=1000000"`
 	IsLike   bool

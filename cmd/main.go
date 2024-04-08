@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const DatabaseUrl = "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
+const DatabaseUrl = "postgres://postgres:postgres@db:5432/postgres?sslmode=disable"
 const ConnectionsCount = 40
 
 func main() {
