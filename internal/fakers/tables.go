@@ -21,59 +21,59 @@ type anime struct {
 }
 
 type userAnimeStatus struct {
-	AnimeId      int    `faker:"boundary_start=1, boundary_end=1000000"`
-	UserId       int    `faker:"boundary_start=1, boundary_end=1000000"`
+	AnimeId      int    `faker:"idFaker"`
+	UserId       int    `faker:"idFaker"`
 	List         string `faker:"oneof: WATCHING, WATCHED, WANT_TO_WATCH, DROPPED, DEFERRED, REVISING"`
 	IsSubscribed bool
 }
 
 type animeSeries struct {
-	AnimeId      int    `faker:"boundary_start=1, boundary_end=1000000"`
+	AnimeId      int    `faker:"idFaker"`
 	SeriesUrl    string `faker:"url"`
 	SecondsCount int
 }
 
 type reviews struct {
-	AnimeId int     `faker:"boundary_start=1, boundary_end=1000000"`
-	UserId  int     `faker:"boundary_start=1, boundary_end=1000000"`
+	AnimeId int     `faker:"idFaker"`
+	UserId  int     `faker:"idFaker"`
 	Rating  float32 `faker:"boundary_start=0.0, boundary_end=5.0"`
 	Text    string  `faker:"paragraph"`
 }
 
 type friends struct {
-	UserId1 int `faker:"boundary_start=1, boundary_end=1000000"`
-	UserId2 int `faker:"boundary_start=1, boundary_end=1000000"`
+	UserId1 int `faker:"idFaker"`
+	UserId2 int `faker:"idFaker"`
 }
 
 type messages struct {
-	SenderId   int    `faker:"boundary_start=1, boundary_end=1000000"`
-	ReceiverId int    `faker:"boundary_start=1, boundary_end=1000000"`
+	SenderId   int    `faker:"idFaker"`
+	ReceiverId int    `faker:"idFaker"`
 	Text       string `faker:"paragraph"`
 	FileUrl    string `faker:"url"`
 	Time       string `faker:"time"`
 }
 
 type achievements struct {
-	AnimeId     int    `faker:"boundary_start=1, boundary_end=1000000"`
+	AnimeId     int    `faker:"idFaker"`
 	Name        string `faker:"first_name"`
 	Description string `faker:"sentence"`
 }
 
 type userAchievements struct {
-	AchievementId int    `faker:"boundary_start=1, boundary_end=1000000"`
-	UserId        int    `faker:"boundary_start=1, boundary_end=1000000"`
+	AchievementId int    `faker:"idFaker"`
+	UserId        int    `faker:"idFaker"`
 	Time          string `faker:"time"`
 }
 
 type notifications struct {
-	UserId int    `faker:"boundary_start=1, boundary_end=1000000"`
+	UserId int    `faker:"idFaker"`
 	Type   string `faker:"oneof: FRIEND_REQUEST, NEW_EPISODE, NEW_MESSAGE"`
 	Body   string
 	Time   string `faker:"time"`
 }
 
 type reactions struct {
-	ReviewId int `faker:"boundary_start=1, boundary_end=1000000"`
-	UserId   int `faker:"boundary_start=1, boundary_end=1000000"`
+	ReviewId int `faker:"idFaker"`
+	UserId   int `faker:"idFaker"`
 	IsLike   bool
 }

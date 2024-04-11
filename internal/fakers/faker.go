@@ -2,14 +2,22 @@ package fakers
 
 import (
 	"github.com/jackc/pgx/v5/pgxpool"
+	"os"
+	"strconv"
 	"sync"
 )
 
-const Count = 1_000_000
-const WorkersCount = 10
-const TablesCount = 11
+var Count = 1_000_000
 
-func GenerateFakeData(pool *pgxpool.Pool) {
+const WorkersCount = 10
+
+func GenerateFakeData(pool *pgxpool.Pool) error {
+	count, err := strconv.Atoi(os.Getenv("COUNT"))
+	if err != nil {
+		return err
+	}
+	Count = count
+	addIdFaker()
 	var wg, userWg, animeWg, reviewWg, achievementWg sync.WaitGroup
 
 	wg.Add(1)
@@ -39,4 +47,6 @@ func GenerateFakeData(pool *pgxpool.Pool) {
 	wg.Add(1)
 	go fillReactions(pool, &wg, &reviewWg, &userWg)
 	wg.Wait()
+
+	return nil
 }
