@@ -14,7 +14,7 @@ services:
       - "5432:5432"
 
   db-init:
-    restart: on-failure
+    restart: no
     build: ./
     command: ./wait-for-postgres.sh db ./db-init
     environment:

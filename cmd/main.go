@@ -69,5 +69,8 @@ func main() {
 	if err := roles.AddRoles(context.Background(), conn.Conn(), []string{"nekit"}); err != nil {
 		log.Fatal(err)
 	}
+	conn.Release()
 	log.Println("added roles")
+
+	pool.Close()
 }
