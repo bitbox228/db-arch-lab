@@ -4,10 +4,12 @@ import (
 	"context"
 	"fmt"
 	"github.com/jackc/pgx/v5"
+	"log"
 	"os"
+	"strings"
 )
 
-func AddRoles(ctx context.Context, db *pgx.Conn, groupUsers []string) error {
+func AddRoles(ctx context.Context, db *pgx.Conn) error {
 	_, err := db.Exec(ctx, `
         CREATE ROLE reader LOGIN;
         CREATE ROLE writer LOGIN;
@@ -34,6 +36,8 @@ func AddRoles(ctx context.Context, db *pgx.Conn, groupUsers []string) error {
 		return err
 	}
 
+	groupUsers := strings.Split(os.Getenv("USERS"), ",")
+	log.Println(groupUsers)
 	for _, user := range groupUsers {
 		_, err = db.Exec(ctx, fmt.Sprintf(`
 			CREATE USER %s WITH PASSWORD '%s';

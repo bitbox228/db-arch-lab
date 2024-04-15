@@ -66,7 +66,7 @@ func main() {
 		log.Fatalf("Unable to acquire a database connection: %v\n", err)
 	}
 
-	if err := roles.AddRoles(context.Background(), conn.Conn(), []string{"nekit"}); err != nil {
+	if err := roles.AddRoles(context.Background(), conn.Conn()); err != nil {
 		log.Fatal(err)
 	}
 	conn.Release()
