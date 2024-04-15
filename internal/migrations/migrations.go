@@ -8,6 +8,8 @@ import (
 	"path/filepath"
 	"regexp"
 	"sort"
+	"strconv"
+	"strings"
 )
 
 type migration struct {
@@ -40,13 +42,14 @@ func Migrate(directory string, db *pgx.Conn) error {
 	}
 
 	sort.Slice(migrations, func(i, j int) bool {
-		return migrations[i].Version < migrations[j].Version
+		return compareVersions(migrations[i].Version, migrations[j].Version)
 	})
+	log.Println(migrations)
 
 	version := os.Getenv(versionEnv)
 
 	for _, migration := range migrations {
-		if len(version) != 0 && migration.Version < version {
+		if len(version) != 0 && compareVersions(version, migration.Version) {
 			break
 		}
 
@@ -62,4 +65,17 @@ func Migrate(directory string, db *pgx.Conn) error {
 	}
 
 	return nil
+}
+
+func compareVersions(version1, version2 string) bool {
+	version1Splitted := strings.Split(version1, ".")
+	version2Splitted := strings.Split(version2, ".")
+	for k := 0; k < 3; k++ {
+		if version1Splitted[k] != version2Splitted[k] {
+			v1, _ := strconv.Atoi(version1Splitted[k])
+			v2, _ := strconv.Atoi(version2Splitted[k])
+			return v1 < v2
+		}
+	}
+	return false
 }
