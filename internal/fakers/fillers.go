@@ -21,7 +21,6 @@ func checkTable(pool *pgxpool.Pool, tableName string) bool {
 }
 
 func fillUsers(pool *pgxpool.Pool, wg *sync.WaitGroup, innerWg *sync.WaitGroup) {
-	wg.Add(1)
 	defer wg.Done()
 	if !checkTable(pool, "users") {
 		return
@@ -63,7 +62,6 @@ func fillUsers(pool *pgxpool.Pool, wg *sync.WaitGroup, innerWg *sync.WaitGroup) 
 }
 
 func fillAnime(pool *pgxpool.Pool, wg *sync.WaitGroup, innerWg *sync.WaitGroup) {
-	wg.Add(1)
 	defer wg.Done()
 
 	if !checkTable(pool, "anime") {
@@ -110,7 +108,6 @@ func fillAnime(pool *pgxpool.Pool, wg *sync.WaitGroup, innerWg *sync.WaitGroup) 
 }
 
 func fillUserAnimeStatus(pool *pgxpool.Pool, wg *sync.WaitGroup, animeWg *sync.WaitGroup, userWg *sync.WaitGroup) {
-	wg.Add(1)
 	defer wg.Done()
 
 	if !checkTable(pool, "user_anime_status") {
@@ -154,7 +151,6 @@ func fillUserAnimeStatus(pool *pgxpool.Pool, wg *sync.WaitGroup, animeWg *sync.W
 }
 
 func fillAnimeSeries(pool *pgxpool.Pool, wg *sync.WaitGroup, animeWg *sync.WaitGroup) {
-	wg.Add(1)
 	defer wg.Done()
 
 	if !checkTable(pool, "anime_series") {
@@ -196,7 +192,6 @@ func fillAnimeSeries(pool *pgxpool.Pool, wg *sync.WaitGroup, animeWg *sync.WaitG
 }
 
 func fillReviews(pool *pgxpool.Pool, wg *sync.WaitGroup, innerWg *sync.WaitGroup, animeWg *sync.WaitGroup, userWg *sync.WaitGroup) {
-	wg.Add(1)
 	defer wg.Done()
 
 	if !checkTable(pool, "reviews") {
@@ -240,7 +235,6 @@ func fillReviews(pool *pgxpool.Pool, wg *sync.WaitGroup, innerWg *sync.WaitGroup
 }
 
 func fillFriends(pool *pgxpool.Pool, wg *sync.WaitGroup, userWg *sync.WaitGroup) {
-	wg.Add(1)
 	defer wg.Done()
 
 	if !checkTable(pool, "friends") {
@@ -281,7 +275,6 @@ func fillFriends(pool *pgxpool.Pool, wg *sync.WaitGroup, userWg *sync.WaitGroup)
 }
 
 func fillMessages(pool *pgxpool.Pool, wg *sync.WaitGroup, userWg *sync.WaitGroup) {
-	wg.Add(1)
 	defer wg.Done()
 
 	if !checkTable(pool, "messages") {
@@ -325,7 +318,6 @@ func fillMessages(pool *pgxpool.Pool, wg *sync.WaitGroup, userWg *sync.WaitGroup
 }
 
 func fillAchievements(pool *pgxpool.Pool, wg *sync.WaitGroup, innerWg *sync.WaitGroup, animeWg *sync.WaitGroup) {
-	wg.Add(1)
 	defer wg.Done()
 
 	if !checkTable(pool, "achievements") {
@@ -367,7 +359,6 @@ func fillAchievements(pool *pgxpool.Pool, wg *sync.WaitGroup, innerWg *sync.Wait
 }
 
 func fillUserAchievements(pool *pgxpool.Pool, wg *sync.WaitGroup, achievementsWg *sync.WaitGroup, userWg *sync.WaitGroup) {
-	wg.Add(1)
 	defer wg.Done()
 
 	if !checkTable(pool, "user_achievements") {
@@ -410,7 +401,6 @@ func fillUserAchievements(pool *pgxpool.Pool, wg *sync.WaitGroup, achievementsWg
 }
 
 func fillNotifications(pool *pgxpool.Pool, wg *sync.WaitGroup, userWg *sync.WaitGroup) {
-	wg.Add(1)
 	defer wg.Done()
 
 	if !checkTable(pool, "notifications") {
@@ -453,7 +443,6 @@ func fillNotifications(pool *pgxpool.Pool, wg *sync.WaitGroup, userWg *sync.Wait
 }
 
 func fillReactions(pool *pgxpool.Pool, wg *sync.WaitGroup, reviewWg *sync.WaitGroup, userWg *sync.WaitGroup) {
-	wg.Add(1)
 	defer wg.Done()
 
 	if !checkTable(pool, "reactions") {
