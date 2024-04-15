@@ -15,16 +15,7 @@ services:
     restart: no
     build: ./
     command: ./wait-for-postgres.sh db ./db-init
-    environment:
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_NAME: postgres
-      HOST: db
-      PORT: 5432
-      SSL_MODE: disable
-      MIGRATION_VERSION: 1.14.0
-      COUNT: 1000
-      ANALYTICS_TABLE: anime
-      USERS: nekit,lexa
+    env_file:
+      - .env
     depends_on:
       - db

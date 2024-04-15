@@ -44,7 +44,6 @@ func Migrate(directory string, db *pgx.Conn) error {
 	sort.Slice(migrations, func(i, j int) bool {
 		return compareVersions(migrations[i].Version, migrations[j].Version)
 	})
-	log.Println(migrations)
 
 	version := os.Getenv(versionEnv)
 
