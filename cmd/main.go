@@ -12,9 +12,9 @@ import (
 type DbConfig struct {
 	Port     string `yaml:"port" env:"PORT" env_default:"5432"`
 	Host     string `yaml:"host" env:"HOST" env_default:"localhost"`
-	Name     string `yaml:"name" env:"DB_NAME" env_default:"postgres"`
-	User     string `yaml:"user" env:"DB_USER" env_default:"postgres"`
-	Password string `yaml:"password" env:"DB_PASSWORD" env_default:"postgres"`
+	Name     string `yaml:"name" env:"POSTGRES_DB" env_default:"postgres"`
+	User     string `yaml:"user" env:"POSTGRES_USER" env_default:"postgres"`
+	Password string `yaml:"password" env:"POSTGRES_PASSWORD" env_default:"postgres"`
 	SslMode  string `yaml:"sslMode" env:"SSL_MODE" env_default:"disable"`
 }
 
@@ -47,17 +47,6 @@ func main() {
 		log.Fatal(err)
 	}
 	log.Println("filled with fake data")
-
-	/*conn, err := pool.Acquire(context.Background())
-	if err != nil {
-		log.Fatalf("Unable to acquire a database connection: %v\n", err)
-	}
-
-	if err := roles.AddRoles(context.Background(), conn.Conn()); err != nil {
-		log.Fatal(err)
-	}
-	conn.Release()
-	log.Println("added roles")*/
 
 	pool.Close()
 }
