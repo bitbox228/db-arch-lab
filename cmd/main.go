@@ -3,8 +3,6 @@ package main
 import (
 	"context"
 	"db-arch-lab2/internal/fakers"
-	"db-arch-lab2/internal/migrations"
-	"db-arch-lab2/internal/roles"
 	"fmt"
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -45,23 +43,12 @@ func main() {
 	}
 	defer pool.Close()
 
-	conn, err := pool.Acquire(context.Background())
-	if err != nil {
-		log.Fatalf("Unable to acquire a database connection: %v\n", err)
-	}
-
-	if err := migrations.Migrate("db/migration", conn.Conn()); err != nil {
-		log.Fatal(err)
-	}
-	conn.Release()
-	log.Println("migrations done")
-
 	if err := fakers.GenerateFakeData(pool); err != nil {
 		log.Fatal(err)
 	}
 	log.Println("filled with fake data")
 
-	conn, err = pool.Acquire(context.Background())
+	/*conn, err := pool.Acquire(context.Background())
 	if err != nil {
 		log.Fatalf("Unable to acquire a database connection: %v\n", err)
 	}
@@ -70,7 +57,7 @@ func main() {
 		log.Fatal(err)
 	}
 	conn.Release()
-	log.Println("added roles")
+	log.Println("added roles")*/
 
 	pool.Close()
 }
