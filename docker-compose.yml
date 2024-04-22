@@ -15,7 +15,7 @@ services:
   db-init:
     restart: no
     build: ./
-    command: ./wait-for-postgres.sh db ./db-init
+    command: ./wait-for-postgres.sh ./db-init
     env_file:
       - .env
     depends_on:
