@@ -4,19 +4,38 @@ services:
   db:
     restart: always
     image: postgres:latest
-    env_file:
-      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      MIGRATION_VERSION: ${MIGRATION_VERSION}
+      ANALYTICS_TABLE: ${ANALYTICS_TABLE}
+      USERS: ${USERS}
     ports:
       - "5432:5432"
     volumes:
       - ./db/scripts:/docker-entrypoint-initdb.d
       - ./db/migration:/db/migration/
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  db-init:
+  faker:
     restart: no
-    build: ./
-    command: ./wait-for-postgres.sh ./db-init
-    env_file:
-      - .env
+    build:
+      context: ./faker_app
+      dockerfile: Dockerfile
+    command: ./app
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      SSL_MODE: ${SSL_MODE}
+      COUNT: ${COUNT}
     depends_on:
-      - db
+      db:
+        condition: service_healthy

@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"db-arch-lab2/internal/fakers"
+	"faker_app/internal/fakers"
 	"fmt"
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -10,8 +10,8 @@ import (
 )
 
 type DbConfig struct {
-	Port     string `yaml:"port" env:"PORT" env_default:"5432"`
-	Host     string `yaml:"host" env:"HOST" env_default:"localhost"`
+	Port     string `yaml:"port" env:"DB_PORT" env_default:"5432"`
+	Host     string `yaml:"host" env:"DB_HOST" env_default:"localhost"`
 	Name     string `yaml:"name" env:"POSTGRES_DB" env_default:"postgres"`
 	User     string `yaml:"user" env:"POSTGRES_USER" env_default:"postgres"`
 	Password string `yaml:"password" env:"POSTGRES_PASSWORD" env_default:"postgres"`
