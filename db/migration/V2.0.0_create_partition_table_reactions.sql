@@ -25,11 +25,11 @@ $$
     END
 $$;
 
-CREATE INDEX IF NOT EXISTS idx_reactions_dislike_review_id ON reactions_dislike (review_id);
-CREATE INDEX IF NOT EXISTS idx_reactions_dislike_is_like ON reactions_dislike (is_like);
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_reactions_dislike_review_id ON reactions_dislike (review_id);
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_reactions_dislike_is_like ON reactions_dislike (is_like);
 
-CREATE INDEX IF NOT EXISTS idx_reactions_like_review_id ON reactions_like (review_id);
-CREATE INDEX IF NOT EXISTS idx_reactions_like_is_like ON reactions_like (is_like);
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_reactions_like_review_id ON reactions_like (review_id);
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_reactions_like_is_like ON reactions_like (is_like);
 
 DROP TABLE IF EXISTS reactions;
 ALTER TABLE IF EXISTS reactions_partition

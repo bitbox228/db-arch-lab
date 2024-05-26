@@ -1,1 +1,1 @@
-CREATE INDEX IF NOT EXISTS idx_reactions_is_like ON reactions (is_like);
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_reactions_is_like ON reactions (is_like);

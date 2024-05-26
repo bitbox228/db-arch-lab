@@ -27,7 +27,6 @@ services:
     build:
       context: ./faker
       dockerfile: Dockerfile
-    command: ./app
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -45,7 +44,6 @@ services:
     build:
       context: ./analyzer
       dockerfile: Dockerfile
-    command: ./app
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -57,6 +55,26 @@ services:
       COUNT: ${COUNT}
     volumes:
       - ./analyzer/logs:/root/logs
+    depends_on:
+      db:
+        condition: service_healthy
+
+  backuper:
+    restart: no
+    build:
+      context: ./backuper
+      dockerfile: Dockerfile
+      args:
+        BACKUPS_TIMEOUT: ${BACKUPS_TIMEOUT:? 1}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      BACKUPS_COUNT: ${BACKUPS_COUNT:? 3}
+    volumes:
+      - ./backuper/backups:/root/backups
     depends_on:
       db:
         condition: service_healthy
