@@ -8,12 +8,19 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"log"
 	"sync"
-	"time"
 )
 
 func checkTable(pool *pgxpool.Pool, tableName string) bool {
+	var tableExists bool
+	err := pool.QueryRow(context.Background(), fmt.Sprintf("SELECT EXISTS(SELECT FROM pg_tables WHERE schemaname='public' AND tablename='%s')", tableName)).Scan(&tableExists)
+	if err != nil {
+		return false
+	}
+	if !tableExists {
+		return false
+	}
 	var count int
-	err := pool.QueryRow(context.Background(), fmt.Sprintf("SELECT COUNT(*) FROM %s", tableName)).Scan(&count)
+	err = pool.QueryRow(context.Background(), fmt.Sprintf("SELECT COUNT(*) FROM %s", tableName)).Scan(&count)
 	if err != nil {
 		return false
 	}
@@ -296,7 +303,7 @@ func fillMessages(pool *pgxpool.Pool, wg *sync.WaitGroup, userWg *sync.WaitGroup
 					messages.ReceiverId,
 					messages.Text,
 					messages.FileUrl,
-					time.Now())
+					messages.Time)
 			}
 
 			userWg.Wait()
@@ -378,7 +385,7 @@ func fillUserAchievements(pool *pgxpool.Pool, wg *sync.WaitGroup, achievementsWg
 					"INSERT INTO user_achievements (achievement_id, user_id, time) VALUES($1, $2, $3)"),
 					userAchievements.AchievementId,
 					userAchievements.UserId,
-					time.Now())
+					userAchievements.Time)
 			}
 
 			userWg.Wait()
@@ -417,11 +424,11 @@ func fillNotifications(pool *pgxpool.Pool, wg *sync.WaitGroup, userWg *sync.Wait
 
 			for notifications := range notificationsChan {
 				batch.Queue(fmt.Sprintf(
-					"INSERT INTO notifications (user_id, type, body, time) VALUES($1, $2, $3, $4)"),
+					"INSERT INTO notifications (user_id, type, body_id, time) VALUES($1, $2, $3, $4)"),
 					notifications.UserId,
 					notifications.Type,
-					"{}",
-					time.Now())
+					notifications.BodyId,
+					notifications.Time)
 			}
 
 			userWg.Wait()

@@ -50,7 +50,7 @@ type messages struct {
 	ReceiverId int    `faker:"idFaker"`
 	Text       string `faker:"paragraph"`
 	FileUrl    string `faker:"url"`
-	Time       string `faker:"time"`
+	Time       string `faker:"timestamp"`
 }
 
 type achievements struct {
@@ -62,14 +62,14 @@ type achievements struct {
 type userAchievements struct {
 	AchievementId int    `faker:"idFaker"`
 	UserId        int    `faker:"idFaker"`
-	Time          string `faker:"time"`
+	Time          string `faker:"timestamp"`
 }
 
 type notifications struct {
 	UserId int    `faker:"idFaker"`
 	Type   string `faker:"oneof: FRIEND_REQUEST, NEW_EPISODE, NEW_MESSAGE"`
-	Body   string
-	Time   string `faker:"time"`
+	BodyId int    `faker:"idFaker"`
+	Time   string `faker:"timestamp"`
 }
 
 type reactions struct {

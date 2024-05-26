@@ -5,17 +5,76 @@ services:
     restart: always
     image: postgres:latest
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      MIGRATION_VERSION: ${MIGRATION_VERSION}
+      ANALYTICS_TABLE: ${ANALYTICS_TABLE}
+      USERS: ${USERS}
     ports:
       - "5432:5432"
+    volumes:
+      - ./db/scripts:/docker-entrypoint-initdb.d
+      - ./db/migration:/db/migration/
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  db-init:
+  faker:
     restart: no
-    build: ./
-    command: ./wait-for-postgres.sh db ./db-init
-    env_file:
-      - .env
+    build:
+      context: ./faker
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      SSL_MODE: ${SSL_MODE}
+      COUNT: ${COUNT}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+
+  analyzer:
+    restart: no
+    build:
+      context: ./analyzer
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      SSL_MODE: ${SSL_MODE}
+      ANALYZER_COUNT: ${ANALYZER_COUNT}
+      COUNT: ${COUNT}
+    volumes:
+      - ./analyzer/logs:/root/logs
+    depends_on:
+      db:
+        condition: service_healthy
+
+  backuper:
+    restart: no
+    build:
+      context: ./backuper
+      dockerfile: Dockerfile
+      args:
+        BACKUPS_TIMEOUT: ${BACKUPS_TIMEOUT:? 1}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      BACKUPS_COUNT: ${BACKUPS_COUNT:? 3}
+    volumes:
+      - ./backuper/backups:/root/backups
+    depends_on:
+      db:
+        condition: service_healthy

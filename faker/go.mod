@@ -1,4 +1,4 @@
-module db-arch-lab2
+module faker
 
 go 1.22
 
