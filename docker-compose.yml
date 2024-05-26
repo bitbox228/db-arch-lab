@@ -25,7 +25,7 @@ services:
   faker:
     restart: no
     build:
-      context: ./faker_app
+      context: ./faker
       dockerfile: Dockerfile
     command: ./app
     environment:
@@ -36,6 +36,27 @@ services:
       DB_PORT: ${DB_PORT}
       SSL_MODE: ${SSL_MODE}
       COUNT: ${COUNT}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  analyzer:
+    restart: no
+    build:
+      context: ./analyzer
+      dockerfile: Dockerfile
+    command: ./app
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      SSL_MODE: ${SSL_MODE}
+      ANALYZER_COUNT: ${ANALYZER_COUNT}
+      COUNT: ${COUNT}
+    volumes:
+      - ./analyzer/logs:/root/logs
     depends_on:
       db:
         condition: service_healthy

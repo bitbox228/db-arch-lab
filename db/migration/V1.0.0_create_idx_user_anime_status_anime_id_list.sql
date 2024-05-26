@@ -1,0 +1,1 @@
+CREATE INDEX idx_user_anime_status_anime_id_list ON user_anime_status(anime_id, list);

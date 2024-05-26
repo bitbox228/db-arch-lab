@@ -1,4 +1,4 @@
-module faker_app
+module faker
 
 go 1.22
 

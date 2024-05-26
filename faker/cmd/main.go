@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"faker_app/internal/fakers"
+	"faker/internal/fakers"
 	"fmt"
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/jackc/pgx/v5/pgxpool"

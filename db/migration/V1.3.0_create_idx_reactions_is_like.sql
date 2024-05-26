@@ -1,0 +1,1 @@
+CREATE INDEX idx_reactions_is_like ON reactions (is_like);
