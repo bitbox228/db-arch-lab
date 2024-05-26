@@ -1,1 +1,1 @@
-CREATE INDEX idx_reactions_review_id ON reactions (review_id);
+CREATE INDEX IF NOT EXISTS idx_reactions_review_id ON reactions (review_id);
