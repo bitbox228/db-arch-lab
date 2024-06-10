@@ -1,1 +1,1 @@
-CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_user_anime_status_anime_id_list ON user_anime_status(anime_id, list);
+CREATE INDEX IF NOT EXISTS idx_user_anime_status_anime_id_list ON user_anime_status(anime_id, list);
